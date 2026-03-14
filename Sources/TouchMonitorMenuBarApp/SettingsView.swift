@@ -1,5 +1,4 @@
 import SwiftUI
-import TouchMonitorPOC
 
 struct SettingsView: View {
     @ObservedObject var model: MenuBarAppModel
@@ -7,10 +6,9 @@ struct SettingsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Form {
-                Section("Monitoring") {
+                Section("Connection") {
                     Toggle("Enable injection", isOn: binding(\.enableInjection))
                     Toggle("Prompt for permissions on start", isOn: binding(\.promptForPermissionsOnStart))
-                    Toggle("Start monitoring when the app launches", isOn: binding(\.startOnLaunch))
                 }
 
                 Section("Device Filters") {
@@ -59,8 +57,8 @@ struct SettingsView: View {
             }
 
             HStack {
-                Button(model.isRunning ? "Stop Monitoring" : "Start Monitoring") {
-                    model.toggleMonitoring()
+                Button(model.isRunning ? "Disconnect" : "Connect") {
+                    model.toggleConnection()
                 }
                 Text(model.statusLine)
                     .font(.caption)

@@ -3,12 +3,14 @@ import IOKit.hid
 
 public final class HIDMonitor {
     public typealias DeviceHandler = (HIDDeviceDescriptor) -> Void
+    public typealias DeviceRemovalHandler = (HIDDeviceDescriptor) -> Void
     public typealias ValueHandler = (HIDValueSample) -> Void
     public typealias ReportHandler = (HIDReportSample) -> Void
     public typealias OpenPredicate = (HIDDeviceDescriptor) -> Bool
 
     private let manager: IOHIDManager
     private let deviceHandler: DeviceHandler
+    private let deviceRemovalHandler: DeviceRemovalHandler
     private let valueHandler: ValueHandler
     private let reportHandler: ReportHandler
     private let shouldOpenDevice: OpenPredicate
@@ -23,6 +25,7 @@ public final class HIDMonitor {
 
     public init(
         deviceHandler: @escaping DeviceHandler,
+        deviceRemovalHandler: @escaping DeviceRemovalHandler = { _ in },
         valueHandler: @escaping ValueHandler,
         reportHandler: @escaping ReportHandler = { _ in },
         shouldOpenDevice: @escaping OpenPredicate = { $0.isTouchCandidate },
@@ -30,6 +33,7 @@ public final class HIDMonitor {
     ) {
         self.manager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
         self.deviceHandler = deviceHandler
+        self.deviceRemovalHandler = deviceRemovalHandler
         self.valueHandler = valueHandler
         self.reportHandler = reportHandler
         self.shouldOpenDevice = shouldOpenDevice
@@ -73,6 +77,10 @@ public final class HIDMonitor {
             let monitor = Unmanaged<HIDMonitor>.fromOpaque(context!).takeUnretainedValue()
             monitor.handleDevice(device)
         }, context)
+        IOHIDManagerRegisterDeviceRemovalCallback(manager, { context, _, _, device in
+            let monitor = Unmanaged<HIDMonitor>.fromOpaque(context!).takeUnretainedValue()
+            monitor.handleDeviceRemoval(device)
+        }, context)
         IOHIDManagerRegisterInputValueCallback(manager, { context, _, _, value in
             let monitor = Unmanaged<HIDMonitor>.fromOpaque(context!).takeUnretainedValue()
             monitor.handleValue(value)
@@ -99,6 +107,14 @@ public final class HIDMonitor {
         IOHIDManagerClose(manager, IOOptionBits(kIOHIDOptionsTypeNone))
     }
 
+    public func rescanDevices() {
+        if let devices = IOHIDManagerCopyDevices(manager) as? Set<IOHIDDevice> {
+            for device in devices {
+                handleDevice(device)
+            }
+        }
+    }
+
     private func handleDevice(_ device: IOHIDDevice) {
         let descriptor = makeDescriptor(for: device)
         guard !knownDevices.contains(descriptor.id) else { return }
@@ -109,6 +125,22 @@ public final class HIDMonitor {
         if shouldOpenDevice(descriptor) {
             attemptOpen(device, descriptor: descriptor)
         }
+    }
+
+    private func handleDeviceRemoval(_ device: IOHIDDevice) {
+        let descriptor = makeDescriptor(for: device)
+        knownDevices.remove(descriptor.id)
+        devicesByID.removeValue(forKey: descriptor.id)
+        elementInfoByDevice.removeValue(forKey: descriptor.id)
+        openedDeviceIDs.remove(descriptor.id)
+
+        if let buffer = reportBuffers.removeValue(forKey: descriptor.id) {
+            buffer.deallocate()
+        }
+
+        IOHIDDeviceUnscheduleFromRunLoop(device, CFRunLoopGetCurrent(), CFRunLoopMode.defaultMode.rawValue)
+        IOHIDDeviceClose(device, IOOptionBits(kIOHIDOptionsTypeNone))
+        deviceRemovalHandler(descriptor)
     }
 
     private func handleValue(_ value: IOHIDValue) {

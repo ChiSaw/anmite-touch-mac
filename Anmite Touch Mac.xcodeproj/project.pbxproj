@@ -1,0 +1,288 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00000000000000000000041 /* TouchMonitorMenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000031 /* TouchMonitorMenuBarApp.swift */; };
+		A00000000000000000000042 /* MenuBarAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000032 /* MenuBarAppModel.swift */; };
+		A00000000000000000000043 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000033 /* SettingsView.swift */; };
+		A00000000000000000000044 /* DisplayMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000034 /* DisplayMapper.swift */; };
+		A00000000000000000000045 /* EventInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000035 /* EventInjector.swift */; };
+		A00000000000000000000046 /* HIDMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000036 /* HIDMonitor.swift */; };
+		A00000000000000000000047 /* HIDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000037 /* HIDTypes.swift */; };
+		A00000000000000000000048 /* TouchInterpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000038 /* TouchInterpreter.swift */; };
+		A00000000000000000000049 /* TouchMonitorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000039 /* TouchMonitorService.swift */; };
+		A0000000000000000000004A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0000000000000000000003B /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A0000000000000000000000A /* Anmite Touch Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anmite Touch Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00000000000000000000031 /* TouchMonitorMenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchMonitorMenuBarApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000032 /* MenuBarAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarAppModel.swift; sourceTree = "<group>"; };
+		A00000000000000000000033 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A00000000000000000000034 /* DisplayMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayMapper.swift; sourceTree = "<group>"; };
+		A00000000000000000000035 /* EventInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInjector.swift; sourceTree = "<group>"; };
+		A00000000000000000000036 /* HIDMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDMonitor.swift; sourceTree = "<group>"; };
+		A00000000000000000000037 /* HIDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HIDTypes.swift; sourceTree = "<group>"; };
+		A00000000000000000000038 /* TouchInterpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchInterpreter.swift; sourceTree = "<group>"; };
+		A00000000000000000000039 /* TouchMonitorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchMonitorService.swift; sourceTree = "<group>"; };
+		A0000000000000000000003A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0000000000000000000003B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A0000000000000000000003C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconSource/logo.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A0000000000000000000000C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000004 /* Sources */,
+				A00000000000000000000007 /* Resources */,
+				A00000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A00000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000000A /* Anmite Touch Mac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000004 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000005 /* App */,
+				A00000000000000000000006 /* Core */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		A00000000000000000000005 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000031 /* TouchMonitorMenuBarApp.swift */,
+				A00000000000000000000032 /* MenuBarAppModel.swift */,
+				A00000000000000000000033 /* SettingsView.swift */,
+			);
+			path = TouchMonitorMenuBarApp;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000006 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000034 /* DisplayMapper.swift */,
+				A00000000000000000000035 /* EventInjector.swift */,
+				A00000000000000000000036 /* HIDMonitor.swift */,
+				A00000000000000000000037 /* HIDTypes.swift */,
+				A00000000000000000000038 /* TouchInterpreter.swift */,
+				A00000000000000000000039 /* TouchMonitorService.swift */,
+			);
+			path = TouchMonitorPOC;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000007 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A0000000000000000000003A /* Info.plist */,
+				A0000000000000000000003B /* Assets.xcassets */,
+				A0000000000000000000003C /* logo.png */,
+			);
+			path = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00000000000000000000009 /* Anmite Touch Mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0000000000000000000000E /* Build configuration list for PBXNativeTarget "Anmite Touch Mac" */;
+			buildPhases = (
+				A0000000000000000000000B /* Sources */,
+				A0000000000000000000000C /* Frameworks */,
+				A0000000000000000000000D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Anmite Touch Mac";
+			productName = "Anmite Touch Mac";
+			productReference = A0000000000000000000000A /* Anmite Touch Mac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					A00000000000000000000009 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+				};
+			};
+			buildConfigurationList = A0000000000000000000000F /* Build configuration list for PBXProject "Anmite Touch Mac" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A00000000000000000000002;
+			productRefGroup = A00000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A00000000000000000000009 /* Anmite Touch Mac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A0000000000000000000000D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0000000000000000000004A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A0000000000000000000000B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00000000000000000000041 /* TouchMonitorMenuBarApp.swift in Sources */,
+				A00000000000000000000042 /* MenuBarAppModel.swift in Sources */,
+				A00000000000000000000043 /* SettingsView.swift in Sources */,
+				A00000000000000000000044 /* DisplayMapper.swift in Sources */,
+				A00000000000000000000045 /* EventInjector.swift in Sources */,
+				A00000000000000000000046 /* HIDMonitor.swift in Sources */,
+				A00000000000000000000047 /* HIDTypes.swift in Sources */,
+				A00000000000000000000048 /* TouchInterpreter.swift in Sources */,
+				A00000000000000000000049 /* TouchMonitorService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A00000000000000000000010 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.christianhuelsemeyer.anmitetouchmac;
+				PRODUCT_NAME = "Anmite Touch Mac";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A00000000000000000000011 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.christianhuelsemeyer.anmitetouchmac;
+				PRODUCT_NAME = "Anmite Touch Mac";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A00000000000000000000012 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A00000000000000000000013 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A0000000000000000000000E /* Build configuration list for PBXNativeTarget "Anmite Touch Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000010 /* Debug */,
+				A00000000000000000000011 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0000000000000000000000F /* Build configuration list for PBXProject "Anmite Touch Mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000012 /* Debug */,
+				A00000000000000000000013 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A00000000000000000000001 /* Project object */;
+}

@@ -71,6 +71,7 @@ public final class TouchMonitorService {
     private var absolutePointerState = AbsolutePointerState()
     private var scrollMomentumTimer: Timer?
     private var vendorProbeTimer: Timer?
+    private var reconnectScanTimer: Timer?
     private var scrollMomentum = ScrollMomentumState()
     private var started = false
     private let scrollSpeedMultiplier = 1.5
@@ -89,6 +90,8 @@ public final class TouchMonitorService {
 
     private lazy var monitor = HIDMonitor(deviceHandler: { [weak self] descriptor in
         self?.handleDevice(descriptor)
+    }, deviceRemovalHandler: { [weak self] descriptor in
+        self?.handleDeviceRemoval(descriptor)
     }, valueHandler: { [weak self] sample in
         self?.handleValueSample(sample)
     }, reportHandler: { [weak self] report in
@@ -123,6 +126,7 @@ public final class TouchMonitorService {
         logPermissions(prompt: config.requestPermissions)
 
         try monitor.start()
+        monitor.rescanDevices()
 
         if !monitor.hasLiveAccess {
             log("")
@@ -141,6 +145,10 @@ public final class TouchMonitorService {
         if config.probeVendor {
             scheduleVendorProbe()
         }
+
+        if selectedDeviceID == nil {
+            startReconnectScan()
+        }
     }
 
     public func stop() {
@@ -148,6 +156,8 @@ public final class TouchMonitorService {
         started = false
         vendorProbeTimer?.invalidate()
         vendorProbeTimer = nil
+        reconnectScanTimer?.invalidate()
+        reconnectScanTimer = nil
         stopScrollMomentum()
         monitor.stop()
     }
@@ -203,6 +213,28 @@ public final class TouchMonitorService {
                 selectedDeviceID = descriptor.id
                 selectedDeviceRank = rank
                 log("  -> selected as active touch device")
+                stopReconnectScan()
+            }
+        }
+    }
+
+    private func handleDeviceRemoval(_ descriptor: HIDDeviceDescriptor) {
+        log("device removed id=\(descriptor.id) product='\(descriptor.product)'")
+        matchingDeviceIDs.remove(descriptor.id)
+        matchingDescriptors.removeValue(forKey: descriptor.id)
+
+        if selectedDeviceID == descriptor.id {
+            selectedDeviceID = nil
+            selectedDeviceRank = Int.min
+            absolutePointerState = AbsolutePointerState()
+            isPrimaryDown = false
+            lastPrimaryPoint = nil
+            lastTwoFingerPoint = nil
+            stopScrollMomentum()
+            log("target touch device disconnected; starting reconnect scan.")
+            selectBestAvailableMatchingDevice()
+            if selectedDeviceID == nil {
+                startReconnectScan()
             }
         }
     }
@@ -515,6 +547,45 @@ public final class TouchMonitorService {
             return 10
         }
         return 0
+    }
+
+    private func selectBestAvailableMatchingDevice() {
+        selectedDeviceID = nil
+        selectedDeviceRank = Int.min
+        for descriptor in matchingDescriptors.values {
+            let rank = deviceRank(descriptor)
+            if rank > selectedDeviceRank {
+                selectedDeviceID = descriptor.id
+                selectedDeviceRank = rank
+            }
+        }
+        if selectedDeviceID != nil {
+            log("  -> selected as active touch device")
+            stopReconnectScan()
+        }
+    }
+
+    private func startReconnectScan() {
+        guard reconnectScanTimer == nil else { return }
+        log("No active touch device. Scanning every second until it reconnects.")
+        reconnectScanTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let self else {
+                timer.invalidate()
+                return
+            }
+            if self.selectedDeviceID != nil {
+                self.stopReconnectScan()
+                return
+            }
+            self.logVerbose("reconnect scan tick")
+            self.monitor.rescanDevices()
+            self.selectBestAvailableMatchingDevice()
+        }
+    }
+
+    private func stopReconnectScan() {
+        reconnectScanTimer?.invalidate()
+        reconnectScanTimer = nil
     }
 
     private func shouldStartScroll(normalizedDX: CGFloat, normalizedDY: CGFloat) -> Bool {

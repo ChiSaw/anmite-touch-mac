@@ -8,7 +8,7 @@ struct TouchMonitorMenuBarApp: App {
     var body: some Scene {
         MenuBarExtra {
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.isRunning ? "Monitoring active" : "Monitoring stopped")
+                Text(model.isRunning ? "Connected" : "Disconnected")
                     .font(.headline)
                 Text(model.statusLine)
                     .font(.caption)
@@ -17,8 +17,8 @@ struct TouchMonitorMenuBarApp: App {
 
                 Divider()
 
-                Button(model.isRunning ? "Stop Monitoring" : "Start Monitoring") {
-                    model.toggleMonitoring()
+                Button(model.isRunning ? "Disconnect" : "Connect") {
+                    model.toggleConnection()
                 }
 
                 Button("Request Permissions") {

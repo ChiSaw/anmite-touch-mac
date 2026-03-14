@@ -1,7 +1,6 @@
 import CoreGraphics
 import Foundation
 import SwiftUI
-import TouchMonitorPOC
 
 @MainActor
 final class MenuBarAppModel: ObservableObject {
@@ -10,9 +9,8 @@ final class MenuBarAppModel: ObservableObject {
     @Published var displayIDText: String
     @Published var enableInjection: Bool
     @Published var promptForPermissionsOnStart: Bool
-    @Published var startOnLaunch: Bool
     @Published var isRunning = false
-    @Published var statusLine = "Idle"
+    @Published var statusLine = "Disconnected"
     @Published var logs = ""
     @Published var permissions = TouchMonitorService.currentPermissionStatus()
     @Published var displays = TouchMonitorService.availableDisplays()
@@ -26,7 +24,6 @@ final class MenuBarAppModel: ObservableObject {
         static let displayID = "TouchMonitor.displayID"
         static let enableInjection = "TouchMonitor.enableInjection"
         static let promptForPermissionsOnStart = "TouchMonitor.promptForPermissionsOnStart"
-        static let startOnLaunch = "TouchMonitor.startOnLaunch"
     }
 
     init() {
@@ -38,25 +35,18 @@ final class MenuBarAppModel: ObservableObject {
         }
         enableInjection = defaults.bool(forKey: Keys.enableInjection)
         promptForPermissionsOnStart = defaults.bool(forKey: Keys.promptForPermissionsOnStart)
-        if defaults.object(forKey: Keys.startOnLaunch) == nil {
-            defaults.set(true, forKey: Keys.startOnLaunch)
-        }
-        startOnLaunch = defaults.bool(forKey: Keys.startOnLaunch)
 
         appendLog("Anmite Touch Mac app initialized.")
         refreshEnvironment()
-
-        if startOnLaunch {
-            startMonitoring()
-        }
+        connect()
     }
 
-    func toggleMonitoring() {
-        isRunning ? stopMonitoring() : startMonitoring()
+    func toggleConnection() {
+        isRunning ? disconnect() : connect()
     }
 
-    func startMonitoring() {
-        stopMonitoring()
+    func connect() {
+        disconnect()
         persistSettings()
         refreshEnvironment()
 
@@ -80,18 +70,18 @@ final class MenuBarAppModel: ObservableObject {
             try service.start()
             self.service = service
             isRunning = true
-            statusLine = "Monitoring active"
+            statusLine = "Connected"
         } catch {
-            appendLog("Failed to start: \(error.localizedDescription)")
-            statusLine = "Start failed"
+            appendLog("Failed to connect: \(error.localizedDescription)")
+            statusLine = "Connect failed"
         }
     }
 
-    func stopMonitoring() {
+    func disconnect() {
         service?.stop()
         service = nil
         isRunning = false
-        statusLine = "Monitoring stopped"
+        statusLine = "Disconnected"
     }
 
     func requestPermissions() {
@@ -123,7 +113,6 @@ final class MenuBarAppModel: ObservableObject {
         defaults.set(displayIDText, forKey: Keys.displayID)
         defaults.set(enableInjection, forKey: Keys.enableInjection)
         defaults.set(promptForPermissionsOnStart, forKey: Keys.promptForPermissionsOnStart)
-        defaults.set(startOnLaunch, forKey: Keys.startOnLaunch)
     }
 
     var permissionSummary: String {
