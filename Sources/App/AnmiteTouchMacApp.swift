@@ -9,15 +9,11 @@ struct AnmiteTouchMacApp: App {
         MenuBarExtra {
             MenuBarContentView(model: model)
         } label: {
-            Image("MenuBarIcon")
-                .renderingMode(.original)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 18, height: 18)
+            MenuBarLabelView(model: model)
         }
         .menuBarExtraStyle(.menu)
 
-        Window("Settings", id: "settings") {
+        Settings {
             SettingsView(model: model)
                 .frame(minWidth: 620, minHeight: 560)
         }
@@ -26,7 +22,6 @@ struct AnmiteTouchMacApp: App {
 
 private struct MenuBarContentView: View {
     @ObservedObject var model: MenuBarAppModel
-    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -44,19 +39,11 @@ private struct MenuBarContentView: View {
             }
 
             Button("Review Permissions") {
-                model.requestPermissions()
+                model.reviewPermissions()
             }
 
             Button("Open Settings…") {
-                NSApp.activate(ignoringOtherApps: true)
-                openWindow(id: "settings")
-
-                DispatchQueue.main.async {
-                    NSApp.activate(ignoringOtherApps: true)
-                    NSApp.windows
-                        .first(where: { $0.title == "Settings" })?
-                        .makeKeyAndOrderFront(nil)
-                }
+                model.openSettingsWindow()
             }
 
             Divider()
@@ -67,5 +54,29 @@ private struct MenuBarContentView: View {
         }
         .padding(.vertical, 4)
         .frame(width: 240, alignment: .leading)
+    }
+}
+
+private struct MenuBarLabelView: View {
+    @ObservedObject var model: MenuBarAppModel
+    @Environment(\.openSettings) private var openSettings
+
+    var body: some View {
+        Image("MenuBarIcon")
+            .renderingMode(.original)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 18, height: 18)
+            .onChange(of: model.settingsOpenRequestID) { _, _ in
+                NSApp.activate(ignoringOtherApps: true)
+                openSettings()
+
+                DispatchQueue.main.async {
+                    NSApp.activate(ignoringOtherApps: true)
+                    NSApp.windows
+                        .first(where: { $0.title == "Settings" })?
+                        .makeKeyAndOrderFront(nil)
+                }
+            }
     }
 }

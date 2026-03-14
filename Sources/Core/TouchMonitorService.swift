@@ -172,11 +172,10 @@ public final class TouchMonitorService {
         enableInjection: Bool = false
     ) -> TouchMonitorPermissionStatus {
         if requestPrompt {
-            let axOptions = ["AXTrustedCheckOptionPrompt": true] as CFDictionary
-            _ = AXIsProcessTrustedWithOptions(axOptions)
-            _ = CGRequestListenEventAccess()
+            requestAccessibilityPermission()
+            requestInputMonitoringPermission()
             if enableInjection {
-                _ = CGRequestPostEventAccess()
+                requestPostEventPermission()
             }
         }
 
@@ -185,6 +184,22 @@ public final class TouchMonitorService {
             accessibilityGranted: AXIsProcessTrusted(),
             postEventsGranted: CGPreflightPostEventAccess()
         )
+    }
+
+    @discardableResult
+    public static func requestInputMonitoringPermission() -> Bool {
+        CGRequestListenEventAccess()
+    }
+
+    @discardableResult
+    public static func requestAccessibilityPermission() -> Bool {
+        let axOptions = ["AXTrustedCheckOptionPrompt": true] as CFDictionary
+        return AXIsProcessTrustedWithOptions(axOptions)
+    }
+
+    @discardableResult
+    public static func requestPostEventPermission() -> Bool {
+        CGRequestPostEventAccess()
     }
 
     private func logPermissions(prompt: Bool) {
