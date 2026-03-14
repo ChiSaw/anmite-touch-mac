@@ -6,6 +6,24 @@ Native macOS menu bar app project for using selected USB touch displays as point
 
 This repository is now Xcode-only. It is no longer built or packaged via SwiftPM scripts.
 
+## Features
+
+- Menu bar app that runs in the background on macOS
+- Auto-connect on launch
+- Automatic reconnect scan when the touch monitor is unplugged and plugged back in again
+- Prefilled support for the detected Anmite touchscreen device:
+  - Vendor ID `10176`
+  - Product ID `2137`
+- One-finger pointer movement on the touch display
+- Tap-to-click recognition based on short press and release
+- Drag recognition with movement thresholding
+- Vertical one-finger scroll detection anywhere on the touch display
+- Inverted scrolling tuned for natural webpage/document scrolling
+- Momentum scrolling that continues briefly after release and decelerates smoothly
+- Cursor handoff to the touched display before synthetic interaction begins
+- First-launch permission prompting for Accessibility and Input Monitoring
+- Settings window for device IDs, display selection, detected displays, and permission status
+
 ## Open In Xcode
 
 Open the Xcode project directly:
@@ -49,33 +67,6 @@ For a production-style app bundle, use Xcode’s archive flow:
 - `Resources/Info.plist`: app bundle metadata
 - `Resources/Assets.xcassets`: app icon asset catalog
 - `Resources/AppIconSource/logo.png`: original logo source image
-
-## App Icon
-
-The original logo source file is:
-
-[logo.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/logo.png)
-
-The menu bar icon source file is:
-
-[menubar.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/menubar.png)
-
-Additional exported menu bar source sizes are available here:
-
-- [menubar@4x.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/menubar@4x.png)
-- [menubar@8x.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/menubar@8x.png)
-
-The actual app icon used by Xcode is in:
-
-[AppIcon.appiconset](/Users/christian/anmite-touch-mac/Resources/Assets.xcassets/AppIcon.appiconset)
-
-The menu bar icon used by the running app is in:
-
-[MenuBarIcon.imageset](/Users/christian/anmite-touch-mac/Resources/Assets.xcassets/MenuBarIcon.imageset)
-
-For the actual menu bar asset, macOS still uses the `1x` and `2x` image set entries. The `4x` and `8x` PNGs are kept as higher-resolution source exports.
-
-If you replace the logo, regenerate the icon sizes in the asset catalog or replace the PNGs in `AppIcon.appiconset`.
 
 ## Permissions
 
