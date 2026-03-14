@@ -7,36 +7,7 @@ struct AnmiteTouchMacApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(model.menuTitle)
-                    .font(.headline)
-                Text(model.menuSubtitle)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(2)
-
-                Divider()
-
-                Button(model.isRunning ? "Disconnect" : "Connect") {
-                    model.toggleConnection()
-                }
-
-                Button("Review Permissions") {
-                    model.requestPermissions()
-                }
-
-                SettingsLink {
-                    Text("Open Settings…")
-                }
-
-                Divider()
-
-                Button("Quit") {
-                    NSApp.terminate(nil)
-                }
-            }
-            .padding(.vertical, 4)
-            .frame(width: 240, alignment: .leading)
+            MenuBarContentView(model: model)
         } label: {
             Image("MenuBarIcon")
                 .renderingMode(.original)
@@ -46,9 +17,55 @@ struct AnmiteTouchMacApp: App {
         }
         .menuBarExtraStyle(.menu)
 
-        Settings {
+        Window("Settings", id: "settings") {
             SettingsView(model: model)
                 .frame(minWidth: 620, minHeight: 560)
         }
+    }
+}
+
+private struct MenuBarContentView: View {
+    @ObservedObject var model: MenuBarAppModel
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(model.menuTitle)
+                .font(.headline)
+            Text(model.menuSubtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
+
+            Divider()
+
+            Button(model.isRunning ? "Disconnect" : "Connect") {
+                model.toggleConnection()
+            }
+
+            Button("Review Permissions") {
+                model.requestPermissions()
+            }
+
+            Button("Open Settings…") {
+                NSApp.activate(ignoringOtherApps: true)
+                openWindow(id: "settings")
+
+                DispatchQueue.main.async {
+                    NSApp.activate(ignoringOtherApps: true)
+                    NSApp.windows
+                        .first(where: { $0.title == "Settings" })?
+                        .makeKeyAndOrderFront(nil)
+                }
+            }
+
+            Divider()
+
+            Button("Quit") {
+                NSApp.terminate(nil)
+            }
+        }
+        .padding(.vertical, 4)
+        .frame(width: 240, alignment: .leading)
     }
 }
