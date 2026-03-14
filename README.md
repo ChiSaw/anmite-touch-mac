@@ -1,4 +1,4 @@
-![Anmite Touch Mac logo](Resources/AppIconSource/logo.png)
+<img src="Resources/AppIconSource/logo.png" alt="Anmite Touch Mac logo" width="256">
 
 # Anmite Touch Mac
 
