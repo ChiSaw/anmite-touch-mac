@@ -42,8 +42,8 @@ For a production-style app bundle, use Xcode’s archive flow:
 ## Project Layout
 
 - `Anmite Touch Mac.xcodeproj`: native macOS Xcode project
-- `Sources/TouchMonitorMenuBarApp`: menu bar app UI
-- `Sources/TouchMonitorPOC`: HID capture, gesture recognition, display mapping, and event injection
+- `Sources/App`: menu bar app UI
+- `Sources/Core`: HID capture, gesture recognition, display mapping, and event injection
 - `Resources/Info.plist`: app bundle metadata
 - `Resources/Assets.xcassets`: app icon asset catalog
 - `Resources/AppIconSource/logo.png`: original logo source image

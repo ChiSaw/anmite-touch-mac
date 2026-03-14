@@ -32,7 +32,7 @@
 		A00000000000000000000039 /* TouchMonitorService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchMonitorService.swift; sourceTree = "<group>"; };
 		A0000000000000000000003A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0000000000000000000003B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A0000000000000000000003C /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconSource/logo.png; sourceTree = "<group>"; };
+		A0000000000000000000003C /* AppIconSource/logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIconSource/logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 				A00000000000000000000032 /* MenuBarAppModel.swift */,
 				A00000000000000000000033 /* SettingsView.swift */,
 			);
-			path = TouchMonitorMenuBarApp;
+			path = App;
 			sourceTree = "<group>";
 		};
 		A00000000000000000000006 /* Core */ = {
@@ -92,7 +92,7 @@
 				A00000000000000000000038 /* TouchInterpreter.swift */,
 				A00000000000000000000039 /* TouchMonitorService.swift */,
 			);
-			path = TouchMonitorPOC;
+			path = Core;
 			sourceTree = "<group>";
 		};
 		A00000000000000000000007 /* Resources */ = {
@@ -100,7 +100,7 @@
 			children = (
 				A0000000000000000000003A /* Info.plist */,
 				A0000000000000000000003B /* Assets.xcassets */,
-				A0000000000000000000003C /* logo.png */,
+				A0000000000000000000003C /* AppIconSource/logo.png */,
 			);
 			path = Resources;
 			sourceTree = SOURCE_ROOT;
@@ -194,6 +194,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -209,8 +210,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.christianhuelsemeyer.anmitetouchmac;
 				PRODUCT_NAME = "Anmite Touch Mac";
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -220,6 +221,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -235,8 +237,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.christianhuelsemeyer.anmitetouchmac;
 				PRODUCT_NAME = "Anmite Touch Mac";
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
