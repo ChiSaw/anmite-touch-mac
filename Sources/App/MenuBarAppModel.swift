@@ -8,9 +8,8 @@ final class MenuBarAppModel: ObservableObject {
     @Published var productIDText: String
     @Published var displayIDText: String
     @Published var enableInjection: Bool
-    @Published var promptForPermissionsOnStart: Bool
     @Published var isRunning = false
-    @Published var statusLine = "Disconnected"
+    @Published var statusLine = "Touch display not connected"
     @Published var logs = ""
     @Published var permissions = TouchMonitorService.currentPermissionStatus()
     @Published var displays = TouchMonitorService.availableDisplays()
@@ -19,25 +18,30 @@ final class MenuBarAppModel: ObservableObject {
     private let defaults = UserDefaults.standard
 
     private enum Keys {
+        static let didPresentInitialPermissionPrompts = "AnmiteTouchMac.didPresentInitialPermissionPrompts"
         static let vendorID = "TouchMonitor.vendorID"
         static let productID = "TouchMonitor.productID"
         static let displayID = "TouchMonitor.displayID"
         static let enableInjection = "TouchMonitor.enableInjection"
-        static let promptForPermissionsOnStart = "TouchMonitor.promptForPermissionsOnStart"
+    }
+
+    private enum Defaults {
+        static let vendorID = "10176"
+        static let productID = "2137"
     }
 
     init() {
-        vendorIDText = defaults.string(forKey: Keys.vendorID) ?? ""
-        productIDText = defaults.string(forKey: Keys.productID) ?? ""
+        vendorIDText = defaults.string(forKey: Keys.vendorID) ?? Defaults.vendorID
+        productIDText = defaults.string(forKey: Keys.productID) ?? Defaults.productID
         displayIDText = defaults.string(forKey: Keys.displayID) ?? ""
         if defaults.object(forKey: Keys.enableInjection) == nil {
             defaults.set(true, forKey: Keys.enableInjection)
         }
         enableInjection = defaults.bool(forKey: Keys.enableInjection)
-        promptForPermissionsOnStart = defaults.bool(forKey: Keys.promptForPermissionsOnStart)
 
-        appendLog("Anmite Touch Mac app initialized.")
+        appendLog("Anmite Touch Mac initialized.")
         refreshEnvironment()
+        requestInitialPermissionsIfNeeded()
         connect()
     }
 
@@ -55,14 +59,13 @@ final class MenuBarAppModel: ObservableObject {
             targetProductID: Int(productIDText),
             targetDisplayID: UInt32(displayIDText),
             enableInjection: enableInjection,
-            requestPermissions: promptForPermissionsOnStart,
+            requestPermissions: false,
             verboseLogging: false
         )
 
         let service = TouchMonitorService(config: config) { [weak self] line in
             Task { @MainActor in
-                self?.appendLog(line)
-                self?.statusLine = line
+                self?.handleServiceLog(line)
             }
         }
 
@@ -70,10 +73,10 @@ final class MenuBarAppModel: ObservableObject {
             try service.start()
             self.service = service
             isRunning = true
-            statusLine = "Connected"
+            statusLine = "Searching for your touch display..."
         } catch {
-            appendLog("Failed to connect: \(error.localizedDescription)")
-            statusLine = "Connect failed"
+            appendLog("Unable to start touch input: \(error.localizedDescription)")
+            statusLine = "Unable to start touch input"
         }
     }
 
@@ -81,7 +84,7 @@ final class MenuBarAppModel: ObservableObject {
         service?.stop()
         service = nil
         isRunning = false
-        statusLine = "Disconnected"
+        statusLine = "Touch input is turned off"
     }
 
     func requestPermissions() {
@@ -89,7 +92,8 @@ final class MenuBarAppModel: ObservableObject {
             requestPrompt: true,
             enableInjection: enableInjection
         )
-        appendLog("Requested permission prompts.")
+        appendLog("Opened macOS permission prompts.")
+        updatePermissionStatusLine()
     }
 
     func refreshEnvironment() {
@@ -112,15 +116,57 @@ final class MenuBarAppModel: ObservableObject {
         defaults.set(productIDText, forKey: Keys.productID)
         defaults.set(displayIDText, forKey: Keys.displayID)
         defaults.set(enableInjection, forKey: Keys.enableInjection)
-        defaults.set(promptForPermissionsOnStart, forKey: Keys.promptForPermissionsOnStart)
     }
 
     var permissionSummary: String {
         [
-            permissions.inputMonitoringGranted ? "Input Monitoring: yes" : "Input Monitoring: no",
-            permissions.accessibilityGranted ? "Accessibility: yes" : "Accessibility: no",
-            permissions.postEventsGranted ? "Post Events: yes" : "Post Events: no",
+            permissions.inputMonitoringGranted ? "Input Monitoring enabled" : "Input Monitoring required",
+            permissions.accessibilityGranted ? "Accessibility enabled" : "Accessibility required",
+            permissions.postEventsGranted ? "Event posting enabled" : "Event posting required",
         ].joined(separator: " | ")
+    }
+
+    var menuTitle: String {
+        isRunning ? "Anmite Touch Mac" : "Anmite Touch Mac"
+    }
+
+    var menuSubtitle: String {
+        statusLine
+    }
+
+    var settingsFooter: String {
+        "Created by Christian Hülsemeyer"
+    }
+
+    private func requestInitialPermissionsIfNeeded() {
+        guard !defaults.bool(forKey: Keys.didPresentInitialPermissionPrompts) else { return }
+        defaults.set(true, forKey: Keys.didPresentInitialPermissionPrompts)
+        requestPermissions()
+    }
+
+    private func handleServiceLog(_ line: String) {
+        appendLog(line)
+
+        if line.contains("selected as active touch device") {
+            statusLine = "Touch display connected"
+            return
+        }
+
+        if line.contains("target touch device disconnected") {
+            statusLine = "Touch display disconnected. Searching..."
+            return
+        }
+
+        if line.contains("grant this app in System Settings") {
+            updatePermissionStatusLine()
+            return
+        }
+    }
+
+    private func updatePermissionStatusLine() {
+        if !permissions.inputMonitoringGranted || !permissions.accessibilityGranted {
+            statusLine = "Finish macOS permissions in System Settings"
+        }
     }
 
     private func appendLog(_ line: String) {

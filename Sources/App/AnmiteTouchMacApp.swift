@@ -8,9 +8,9 @@ struct AnmiteTouchMacApp: App {
     var body: some Scene {
         MenuBarExtra {
             VStack(alignment: .leading, spacing: 8) {
-                Text(model.isRunning ? "Connected" : "Disconnected")
+                Text(model.menuTitle)
                     .font(.headline)
-                Text(model.statusLine)
+                Text(model.menuSubtitle)
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
@@ -21,12 +21,12 @@ struct AnmiteTouchMacApp: App {
                     model.toggleConnection()
                 }
 
-                Button("Request Permissions") {
+                Button("Review Permissions") {
                     model.requestPermissions()
                 }
 
                 SettingsLink {
-                    Text("Settings…")
+                    Text("Open Settings…")
                 }
 
                 Divider()
