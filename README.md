@@ -1,3 +1,5 @@
+![Anmite Touch Mac logo](Resources/AppIconSource/logo.png)
+
 # Anmite Touch Mac
 
 Native macOS menu bar app project for using selected USB touch displays as pointer, drag, and scrolling input on macOS.
@@ -54,9 +56,24 @@ The original logo source file is:
 
 [logo.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/logo.png)
 
+The menu bar icon source file is:
+
+[menubar.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/menubar.png)
+
+Additional exported menu bar source sizes are available here:
+
+- [menubar@4x.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/menubar@4x.png)
+- [menubar@8x.png](/Users/christian/anmite-touch-mac/Resources/AppIconSource/menubar@8x.png)
+
 The actual app icon used by Xcode is in:
 
 [AppIcon.appiconset](/Users/christian/anmite-touch-mac/Resources/Assets.xcassets/AppIcon.appiconset)
+
+The menu bar icon used by the running app is in:
+
+[MenuBarIcon.imageset](/Users/christian/anmite-touch-mac/Resources/Assets.xcassets/MenuBarIcon.imageset)
+
+For the actual menu bar asset, macOS still uses the `1x` and `2x` image set entries. The `4x` and `8x` PNGs are kept as higher-resolution source exports.
 
 If you replace the logo, regenerate the icon sizes in the asset catalog or replace the PNGs in `AppIcon.appiconset`.
 

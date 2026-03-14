@@ -38,7 +38,11 @@ struct TouchMonitorMenuBarApp: App {
             .padding(.vertical, 4)
             .frame(width: 240, alignment: .leading)
         } label: {
-            Image(systemName: model.isRunning ? "hand.point.up.left.fill" : "hand.point.up.left")
+            Image("MenuBarIcon")
+                .renderingMode(.original)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 18, height: 18)
         }
         .menuBarExtraStyle(.menu)
 
