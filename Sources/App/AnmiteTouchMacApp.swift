@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 @main
-struct TouchMonitorMenuBarApp: App {
+struct AnmiteTouchMacApp: App {
     @StateObject private var model = MenuBarAppModel()
 
     var body: some Scene {

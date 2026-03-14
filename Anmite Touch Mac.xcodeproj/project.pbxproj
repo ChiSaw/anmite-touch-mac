@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A00000000000000000000041 /* TouchMonitorMenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000031 /* TouchMonitorMenuBarApp.swift */; };
+		A00000000000000000000041 /* AnmiteTouchMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000031 /* AnmiteTouchMacApp.swift */; };
 		A00000000000000000000042 /* MenuBarAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000032 /* MenuBarAppModel.swift */; };
 		A00000000000000000000043 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000033 /* SettingsView.swift */; };
 		A00000000000000000000044 /* DisplayMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000034 /* DisplayMapper.swift */; };
@@ -21,7 +21,7 @@
 
 /* Begin PBXFileReference section */
 		A0000000000000000000000A /* Anmite Touch Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Anmite Touch Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A00000000000000000000031 /* TouchMonitorMenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchMonitorMenuBarApp.swift; sourceTree = "<group>"; };
+		A00000000000000000000031 /* AnmiteTouchMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnmiteTouchMacApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000032 /* MenuBarAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarAppModel.swift; sourceTree = "<group>"; };
 		A00000000000000000000033 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A00000000000000000000034 /* DisplayMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayMapper.swift; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 		A00000000000000000000005 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				A00000000000000000000031 /* TouchMonitorMenuBarApp.swift */,
+				A00000000000000000000031 /* AnmiteTouchMacApp.swift */,
 				A00000000000000000000032 /* MenuBarAppModel.swift */,
 				A00000000000000000000033 /* SettingsView.swift */,
 			);
@@ -174,7 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A00000000000000000000041 /* TouchMonitorMenuBarApp.swift in Sources */,
+				A00000000000000000000041 /* AnmiteTouchMacApp.swift in Sources */,
 				A00000000000000000000042 /* MenuBarAppModel.swift in Sources */,
 				A00000000000000000000043 /* SettingsView.swift in Sources */,
 				A00000000000000000000044 /* DisplayMapper.swift in Sources */,
